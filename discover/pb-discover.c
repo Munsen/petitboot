@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
+#include <locale.h>
 
 #include <waiter/waiter.h>
 #include <log/log.h>

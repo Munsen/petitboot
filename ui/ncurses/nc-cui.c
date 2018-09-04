@@ -27,6 +27,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/reboot.h>
+#include <locale.h>
 
 #include "log/log.h"
 #include "pb-protocol/pb-protocol.h"
@@ -1236,7 +1237,7 @@ static struct pmenu *main_menu_init(struct cui *cui)
 	int result;
 	bool lockdown = lockdown_active();
 
-	m = pmenu_init(cui, 9, cui_on_exit);
+	m = pmenu_init(cui, 7, cui_on_exit);
 	if (!m) {
 		pb_log("%s: failed\n", __func__);
 		return NULL;
@@ -1269,29 +1270,20 @@ static struct pmenu *main_menu_init(struct cui *cui)
 	i->on_execute = menu_statuslog_execute;
 	pmenu_item_insert(m, i, 3);
 
-	/* this label isn't translated, so we don't want a gettext() here */
-	i = pmenu_item_create(m, "Language");
-	i->on_execute = menu_lang_execute;
-	pmenu_item_insert(m, i, 4);
-
 	i = pmenu_item_create(m, _("Rescan devices"));
 	i->on_execute = menu_reinit_execute;
-	pmenu_item_insert(m, i, 5);
-
-	i = pmenu_item_create(m, _("Retrieve config from URL"));
-	i->on_execute = menu_add_url_execute;
-	pmenu_item_insert(m, i, 6);
+	pmenu_item_insert(m, i, 4);
 
 	i = pmenu_item_create(m, _("Plugins (0)"));
 	i->on_execute = menu_plugin_execute;
-	pmenu_item_insert(m, i, 7);
+	pmenu_item_insert(m, i, 5);
 
 	if (lockdown)
 		i = pmenu_item_create(m, _("Reboot"));
 	else
 		i = pmenu_item_create(m, _("Exit to shell"));
 	i->on_execute = pmenu_exit_cb;
-	pmenu_item_insert(m, i, 8);
+	pmenu_item_insert(m, i, 6);
 
 	result = pmenu_setup(m);
 
@@ -1566,7 +1558,7 @@ static void cui_cancel_autoboot_on_exit(struct cui *cui)
 
 int cui_run(struct cui *cui)
 {
-	assert(main);
+	/* assert(main); */
 
 	cui->current = &cui->main->scr;
 	cui->default_item = 0;
