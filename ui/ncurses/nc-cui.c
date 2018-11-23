@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include <sys/ioctl.h>
 #include <sys/reboot.h>
 
@@ -1566,7 +1567,9 @@ static void cui_cancel_autoboot_on_exit(struct cui *cui)
 
 int cui_run(struct cui *cui)
 {
+#if !defined(DEBUG)
 	assert(main);
+#endif
 
 	cui->current = &cui->main->scr;
 	cui->default_item = 0;
