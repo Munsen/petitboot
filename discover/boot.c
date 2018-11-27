@@ -126,8 +126,9 @@ static int kexec_load(struct boot_task *boot_task)
 	assert(s_args);
 	*p++ = s_args;		/* 5 */
 
-	*p++ = local_image;		/* 6 */
-	*p++ = NULL;			/* 7 */
+	*p++ = local_image;             /* 6 */
+	*p++ = "--no-checks";           /* 7 */
+	*p++ = NULL;                    /* 8 */
 
 	result = process_run_sync(process);
 	if (result) {
