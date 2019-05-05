@@ -88,6 +88,7 @@ static void uboot_finish(struct conf_context *conf)
 	}
 
 	opt->description = talloc_strdup(opt, "ODROID");
+	opt->is_default = true;
 
 	conf_strip_str(opt->boot_args);
 	conf_strip_str(opt->description);
